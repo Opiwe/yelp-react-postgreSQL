@@ -2,7 +2,8 @@ require("dotenv").config();
 const express = require("express");
 const app = express();
 const cors = require("cors");
-const morgan = require("morgan");
+const db = require("./db");
+const { rows } = require("pg/lib/defaults");
 
 const PORT = process.env.PORT || 8000;
 
@@ -15,14 +16,24 @@ app.get('/', (req, res) => {
 });
 
 // Get all restaurants
-app.get('/api/v1/restaurants', (req, res) => {
-    console.log('route handler ran')
-    res.status(200).json({
-        status: 'success',
-        data: {
-            restaurants: ["mcdonlads", "wendys"],
-        },
-    });
+app.get('/api/v1/restaurants', async (req, res) => {
+
+    try {
+        const results = await db.query("select * from restaurants");
+
+        console.log(results);
+
+        res.status(200).json({
+            status: 'success',
+            results: results.rows.length,
+            data: {
+                restaurants: results.rows,
+            },
+        });
+        
+    } catch (err) {
+        console.log(err);
+    }
 });
 
 // Get one single restaurant
