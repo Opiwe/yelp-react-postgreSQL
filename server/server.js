@@ -3,7 +3,7 @@ const express = require("express");
 const app = express();
 const cors = require("cors");
 const db = require("./db");
-const { rows } = require("pg/lib/defaults");
+const { rows } = require("../client/node_modules/pg/lib/defaults");
 
 const PORT = process.env.PORT || 8000;
 
