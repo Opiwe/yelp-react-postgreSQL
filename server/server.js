@@ -59,7 +59,7 @@ app.get('/api/v1/restaurants/:id', async (req, res) => {
 
 // Create a restaurants
 app.post('/api/v1/restaurants', async (req, res) => {
-    
+
     console.log(req.body);
 
     try {
@@ -81,16 +81,26 @@ app.post('/api/v1/restaurants', async (req, res) => {
 });
 
 // Update a restaurant
-app.put('/api/v1/restaurants/:id', (req, res) => {
+app.put('/api/v1/restaurants/:id', async (req, res) => {
+
+    try {
+        const results = await db.query("UPDATE restaurants SET name = $1, location = $2, price_range = $3 where id = $4 returning *", 
+        [req.body.name, req.body.location, req.body.price_range, req.params.id]);
+
+        console.log(results);
+
+        res.status(200).json({
+            status: 'success',
+            data: {
+                restaurant: results.rows[0],
+            }
+        });
+    } catch (err) {
+        console.log(err);
+    }
+
     console.log(req.params.id);
     console.log(req.body);
-
-    res.status(200).json({
-        status: 'success',
-        data: {
-            restaurant: "mcdonlanlds"
-        }
-    });
 });
 
 // Delete a restaurant
