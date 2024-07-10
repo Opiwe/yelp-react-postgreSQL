@@ -7,7 +7,9 @@ const Root = () => {
     return (
         <>
             <Navabar/>
-            <Outlet/>
+                <div className='main'>
+                    <Outlet />
+                </div>
             <Footer/>
         </>
     )
