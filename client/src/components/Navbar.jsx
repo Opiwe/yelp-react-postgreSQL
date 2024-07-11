@@ -2,7 +2,9 @@ import React from 'react';
 
 const Navabar = () => {
     return (
-        <div>Navabar</div>
+        <div className='font-weight-light display-1 text-center'>
+            Restaurant Finder
+        </div>
     )
 }
 
